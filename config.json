@@ -1,5 +1,1 @@
-{"Keys": 
-    {
-    "GoogleAPIKey": "AIzaSyApd7lpHgv9vq6Eu5Iolm-Dd8gIKtbp_TA"
-    }
-}
+"set Google Places API key as an environment variable"
