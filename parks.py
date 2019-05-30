@@ -1,8 +1,7 @@
 # parks.py - this python script will be used to locate skateparks within a 25 mile radius
 
-import googlemaps, pprint, time, json, sys, os
+import googlemaps, pprint, time, json, sys, os, requests
 from geopy.geocoders import Nominatim
-
 
 # Finding user location based on input() 
 geolocator = Nominatim(user_agent="myapplication")
@@ -15,22 +14,46 @@ except Exception as e:
     print(f'Error:{city} does not exist!')
     sys.exit()
 
-
 API_KEY = os.environ.get('API_KEY')
 gmaps = googlemaps.Client(key=API_KEY)
 query = ['skatepark', 'skate park']
 skatepark_result = gmaps.places(query=query[0] or query[1], radius=40000, location=f'{latitude}, {longitude}')
 
+MATRIX_KEY = os.environ.get('MATRIX_KEY')
+url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
+# mode can be driving, walking or bicycling or transit (pub transportation)
+mode = 'driving'
 
 def park_info():
-    ''' prints the name of the skatepark and the rating '''
+    ''' prints the name of the skatepark and the rating along with distance and duration '''
     n = '\n'
     for park in skatepark_result['results']:
         my_place_id = park['place_id']
         my_fields = ['name', 'rating', 'vicinity']
         park_details = gmaps.place(place_id=my_place_id, fields=my_fields)
 
-        print(f"Name: {park_details['result']['name']} Rating: {park_details['result']['rating']}{n}Address: {park_details['result']['vicinity']}{n}")
+        name = park_details['result']['name']
+        address = park_details['result']['vicinity']
+        # put rating in try block because of Houston
+        try:
+            rating = park_details['result']['rating']
+        except Exception as exc:
+            print(f'No rating found {exc}')
+
+        response = requests.get(url + 'origins= ' + city + '&destinations=' + address +  '&mode=' + mode + '&key= '+ MATRIX_KEY)
+        data = response.json()
+
+        # retrieve the km portion and duration from distance matrix api
+        try:
+            for i in data['rows']:
+                element = i['elements']
+                for j in element:
+                    distance = j['distance']['text']
+                    duration = j['duration']['text']
+        except Exception as e:
+            print(f'Unavailable: {e}')
+        
+        print(f'Name: {name}{n}Rating: {rating}{n}Address: {address}{n}The total distance is: {distance}{n}It will take you {duration} to get there by car{n}')
 
 
 def pic_reference():
@@ -64,13 +87,12 @@ def download_photo():
             print(f'{name} already exists . . . Checking next park . . . \n')
 
 
+# TODO: Make a function for reviews
+
 def main(): 
     park_info()
-    pic_reference()
-    download_photo()
-
+    # pic_reference()
+    # download_photo()
 
 if __name__ == '__main__':
     main()
-
-# TODO: figure out how calculate the distance between the parks to the user's city
