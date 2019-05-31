@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<head> 
+    {% if title %}
+        <title>{{ title }} - Find a Skatepark</title>
+    {% else %}
+        <title>Find a Skatepark</title>
+    {% endif %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Skateparks Near You</h1>
+
+    <!-- Search form -->
+<body>
+    <form action="{{ url_for('results') }}" method="POST">
+    <form class="form-inline md-form mr-auto mb-4">
+
+        <input class="form-control mr-sm-2" type="text" placeholder="Enter city or zip code" aria-label="Search">
+
+        <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" href={{ url_for('results') }}>Search</button>
+
+    </form>
+</body>
+{% endblock content %}

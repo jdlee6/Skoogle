@@ -19,7 +19,6 @@ gmaps = googlemaps.Client(key=API_KEY)
 query = ['skatepark', 'skate park']
 skatepark_result = gmaps.places(query=query[0] or query[1], radius=40000, location=f'{latitude}, {longitude}')
 
-MATRIX_KEY = os.environ.get('MATRIX_KEY')
 url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
 # mode can be driving, walking or bicycling or transit (pub transportation)
 mode = 'driving'
@@ -40,7 +39,7 @@ def park_info():
         except Exception as exc:
             print(f'No rating found {exc}')
 
-        response = requests.get(url + 'origins= ' + city + '&destinations=' + address +  '&mode=' + mode + '&key= '+ MATRIX_KEY)
+        response = requests.get(url + 'origins= ' + city + '&destinations=' + address +  '&mode=' + mode + '&key= '+ API_KEY)
         data = response.json()
 
         # retrieve the km portion and duration from distance matrix api
