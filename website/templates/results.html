@@ -1,4 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>This will be the results page</h1>
+    <h1>Parks near {{ form.location.data }}</h1>
+    <div class="results">
+        {% for park in response %}
+            <li>{{ park['name'] }}</li>
+            <li>{{ park['formatted_address'] }}</li>
+            <li>{{ park['rating'] }}</li>
+            <li>{{ park['distance'] }}</li>
+            <li>{{ park['duration'] }}</li>
+            <br>
+        {% endfor %}
+    </div>
 {% endblock content %}

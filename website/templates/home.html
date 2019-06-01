@@ -3,14 +3,29 @@
     <h1>Skateparks Near You</h1>
 
     <!-- Search form -->
-<body>
-    <form action="{{ url_for('results') }}" method="POST">
-    <form class="form-inline md-form mr-auto mb-4">
+    <div class="content-section">
+        <form method="POST" action="{{ url_for('results') }}">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Search Below</legend>
+                <div class="form-group">
+                        {{ form.location.label(class="form-control-label") }}
 
-        <input class="form-control mr-sm-2" type="text" placeholder="Enter city or zip code" aria-label="Search">
-
-        <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" href={{ url_for('results') }}>Search</button>
-
+                        {% if  form.location.errors %}
+                            {{ form.location(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.location.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.location(class="form-control form-control-lg") }}
+                    {% endif %}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class='btn btn-outline-info')}}
+                    </div>
     </form>
 </body>
 {% endblock content %}
