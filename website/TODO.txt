@@ -1,0 +1,11 @@
+###############
+####TO DO#####
+###############
+
+*create database of results
+
+* paginate the results page
+
+*implement pictures of skateparks
+
+*implement a sort-by feature
