@@ -2,9 +2,9 @@ from app import db
 
 class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    origin = db.Column(db.String(30), unique=True, nullable=False)
-    name = db.Column(db.String(20), unique=True, nullable=False)
-    address = db.Column(db.String(60), unique=True, nullable=False)
+    origin = db.Column(db.String(30), unique=False, nullable=False)
+    name = db.Column(db.String(30), unique=False, nullable=False)
+    address = db.Column(db.String(60), unique=False, nullable=False)
     rating = db.Column(db.String(5), unique=False, nullable=False)
     distance = db.Column(db.String(10), unique=False, nullable=False)
     duration = db.Column(db.String(10), unique=False, nullable=False)

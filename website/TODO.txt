@@ -2,7 +2,7 @@
 ####TO DO#####
 ###############
 
-*create database of results
+*create database of results [complete]
 
 * paginate the results page
 
