@@ -27,7 +27,7 @@
     {% endfor %}
     {% for page_num in results.iter_pages() %}
         {% if page_num %}
-            <a class="btn" href="{{ url_for('results', page=page_num) }}">{{ page_num }}</a>
+            <a class="btn" href="{{ url_for('time_fast', page=page_num) }}">{{ page_num }}</a>
         {% else %}
             ...
         {% endif %}
