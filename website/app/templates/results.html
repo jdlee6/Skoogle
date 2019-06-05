@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Parks near {{ form.location.data }}</h1>
+<div class="navbar">
+    <a href="{{ url_for('home') }}">Search</a>
+</div>
+    <h1>Parks near {{ origin }} </h1>
     <div class="results">
     {% for park in results.items %}
         <h2>{{ park['name'] }}</h2>

@@ -6,6 +6,13 @@
 
 *implement pictures of skateparks [complete]
 
-* paginate the results page [incomplete . . .]
+*paginate the results page [complete]
+    *default pagination set to shortest amount of duration to get to park [complete]
+
+*implement nav bar to go back to search page [complete]
 
 *implement a sort-by feature
+
+*implement a loading page
+
+*implement themes and error page themes
