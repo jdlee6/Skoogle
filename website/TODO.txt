@@ -4,8 +4,8 @@
 
 *create database of results [complete]
 
-* paginate the results page
+*implement pictures of skateparks [complete]
 
-*implement pictures of skateparks
+* paginate the results page [incomplete . . .]
 
 *implement a sort-by feature
