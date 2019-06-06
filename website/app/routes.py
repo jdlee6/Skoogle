@@ -2,7 +2,7 @@ from flask import redirect, url_for, render_template, request
 import googlemaps, json, os, requests
 from app.forms import SearchForm
 from geopy.geocoders import Nominatim
-from app import app, API_KEY, db
+from app import app, API_KEY, db, geolocator
 from app.models import Result
 
 
@@ -29,7 +29,7 @@ def results():
     places_results=[]
     form = SearchForm()
     if form.validate_on_submit():
-        geolocator = Nominatim(user_agent="myapplication")
+        # geolocator = Nominatim(user_agent="myapplication")
         global city
         city = form.location.data
         location = geolocator.geocode(city)

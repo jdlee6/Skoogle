@@ -8,4 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///results.db'
 db = SQLAlchemy(app)
 API_KEY = os.environ.get('API_KEY')
 
+geolocator = Nominatim(user_agent="myapplication")
+
+
 from app import routes
