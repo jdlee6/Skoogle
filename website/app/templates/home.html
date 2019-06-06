@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Skateparks Near You</h1>
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
+    <div class="bg"></div>
 
     <!-- Search form -->
-    <div class="content-section">
-        <form method="POST" action="{{ url_for('results') }}">
+    <div class="bg-img centered">
+        <form method="POST" action="{{ url_for('results') }}" class="container-centered">
             {{ form.hidden_tag() }}
+
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Search Below</legend>
                 <div class="form-group">
                         {{ form.location.label(class="form-control-label") }}
 
@@ -24,8 +25,10 @@
                     </div>
                 </fieldset>
                 <div class="form-group">
-                    {{ form.submit(class='btn btn-outline-info')}}
-                    </div>
-    </form>
+                    {{ form.submit(class='btn btn-outline-info') }}
+                </div>
+        </form>
+    </div>
+    <!-- <div id="loading" style="display:none;"><img src="/static/loading.gif" alt="" />Loading . . .</div> -->
 </body>
 {% endblock content %}

@@ -50,6 +50,7 @@ def results():
 
         for park in skatepark_result:
             b = time.time()
+            address = park['formatted_address']
             distance_response = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=address, transit_mode='driving')
             distance = distance_response['rows'][0]['elements'][0]['distance']['text']
             duration = distance_response['rows'][0]['elements'][0]['duration']['text']

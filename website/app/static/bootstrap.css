@@ -1,0 +1,66 @@
+body, html {
+    height: 100%;
+  }
+  .bg {
+    /* The image used */
+    background-image: url("https://assets.vogue.com/photos/58771b277e18a86e7bf7eb67/16:9/pass/01-worlds-coolest-skateparks.jpg");
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+/* Add styles to the form container */
+.container {
+    position: center;
+    right: 0;
+    margin: 20px;
+    max-width: 300px;
+    padding: 16px;
+    background-color: white;
+  }
+  
+  /* Full-width input fields */
+    input[type=text] {
+    width: 100%;
+    padding: 2px;
+    margin: 2px 0 2px 0;
+    border: none;
+    background: rgba(238, 238, 238, .5);
+  }
+  
+  input[type=text]:focus {
+    background-color: rgba(255, 255, 255, .8);
+    outline: none;
+  }
+  
+  /* Set a style for the submit button */
+  .btn {
+    background-color: rgb(70, 133, 158, .8);
+    color: white;
+    padding: 2px 2px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+  }
+  
+  .btn:hover {
+    opacity: 1;
+  }
+
+  body {
+    color: rgb(0, 0, 0)  	;
+  }

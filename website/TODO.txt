@@ -13,9 +13,14 @@
 
 *implement a sort-by feature [complete]
 
+*implement home page theme [complete]
+
+*implement results page theme 
+
 *implement a loading page
 
-*implement themes and error page themes
+*implement error handling pages (403, 404, 500)
+
 
 ## OPTIMIZATIONS
 # Optimize the database
