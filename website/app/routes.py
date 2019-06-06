@@ -2,8 +2,10 @@ from flask import redirect, url_for, render_template, request
 import googlemaps, json, os, requests
 from app.forms import SearchForm
 from geopy.geocoders import Nominatim
-from app import app, API_KEY, db, geolocator
+from app import app, API_KEY, db
 from app.models import Result
+
+import time
 
 
 gmaps = googlemaps.Client(key=API_KEY)
@@ -26,19 +28,28 @@ def home():
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
+    start = time.time()
     places_results=[]
     form = SearchForm()
     if form.validate_on_submit():
-        # geolocator = Nominatim(user_agent="myapplication")
+        geolocator = Nominatim(user_agent="myapplication")
         global city
         city = form.location.data
         location = geolocator.geocode(city)
         longitude = location.longitude
         latitude = location.latitude
-        skatepark_result = gmaps.places(query=query[0] or query[1], radius=40000, location=f'{latitude}, {longitude}')
+        skatepark_result = gmaps.places(query=query[0] or query[1], radius=1000, location=f'{latitude}, {longitude}')['results']
+        # address_list = [park['formatted_address'] for park in skatepark_result]
+        # address_string = '|'.join(formatted_address)
 
-        for park in skatepark_result['results']:
-            address = park['formatted_address']
+        # photo_list = [park['']]
+
+        # a = time.time()
+        # desp = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=formatted_string, transit_mode='driving')
+        # print(f'\n\n\n A: Elapsed = {time.time() - a}\n\n\n\n')
+
+        for park in skatepark_result:
+            b = time.time()
             distance_response = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=address, transit_mode='driving')
             distance = distance_response['rows'][0]['elements'][0]['distance']['text']
             duration = distance_response['rows'][0]['elements'][0]['duration']['text']
@@ -68,6 +79,8 @@ def results():
     # pagination
     page = request.args.get('page', 1, type=int)
     page_results = Result.query.order_by(Result.duration.asc()).paginate(page=page, per_page=5)
+
+    print(f'Finished: Exec time = {time.time() - start}')
 
     return render_template('results.html', form=form, results=page_results, origin=city)
 
