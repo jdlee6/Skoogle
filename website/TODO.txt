@@ -16,3 +16,8 @@
 *implement a loading page
 
 *implement themes and error page themes
+
+## OPTIMIZATIONS
+# Optimize the database
+# Scope Control
+# Make a framework for the API 
