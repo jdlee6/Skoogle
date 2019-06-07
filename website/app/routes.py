@@ -39,14 +39,12 @@ def results():
         longitude = location.longitude
         latitude = location.latitude
         skatepark_result = gmaps.places(query=query[0] or query[1], radius=1000, location=f'{latitude}, {longitude}')['results']
-        # address_list = [park['formatted_address'] for park in skatepark_result]
-        # address_string = '|'.join(formatted_address)
+        address_list = [park['formatted_address'] for park in skatepark_result]
+        address_string = '|'.join(address_list)
 
-        # photo_list = [park['']]
-
-        # a = time.time()
-        # desp = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=formatted_string, transit_mode='driving')
-        # print(f'\n\n\n A: Elapsed = {time.time() - a}\n\n\n\n')
+        a = time.time()
+        desp = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=address_string, transit_mode='driving')
+        print(f'\n\n\n A: Elapsed = {time.time() - a}\n\n\n\n')
 
         for park in skatepark_result:
             b = time.time()
