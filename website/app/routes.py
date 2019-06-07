@@ -26,13 +26,13 @@ def home():
     return render_template('home.html', form=form)
 
 
-def build_destination(destinations, distances, durations):
+def build_destination(name, destinations, distances, durations):
     # [(destination, distance, duration)]
-    return list(zip(destinations, distances, durations))
+    return list(zip(name, destinations, distances, durations))
 
 
 def make_parks(data):
-    return [Park(x) for x in data]
+    return (Park(x) for x in data)
 
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -49,7 +49,7 @@ def results():
         latitude = location.latitude
         skatepark_result = gmaps.places(
             query=query[0] or query[1],
-            radius=1000,
+            radius=40000,
             location=f'{latitude}, {longitude}')['results']
         address_list = [park['formatted_address'] for park in skatepark_result]
         address_string = '|'.join(address_list)
@@ -57,6 +57,8 @@ def results():
         desp = gmaps.distance_matrix(origins=f'{latitude}, {longitude}',
                                      destinations=address_string,
                                      transit_mode='driving')
+        print(skatepark_result[0]['name'])
+        names = [park['name'] for park in skatepark_result]
         destinations = desp['destination_addresses']
         durations = [
             element['duration'] for element in desp['rows'][0]['elements']
@@ -64,11 +66,13 @@ def results():
         distances = [
             element['distance'] for element in desp['rows'][0]['elements']
         ]
-        dest_info = build_destination(destinations, distances, durations)
-        parks = make_parks(dest_info)
+        dest_info = build_destination(names, destinations, distances, durations)
+        parks = list(make_parks(dest_info))
         for park in parks:
-            print(park)
+            print(park, end='\n')
+        # park_dicts = [park.__dict__ for park in parks]
         print(f'\n\n\n A: Elapsed = {time.time() - a}\n\n\n\n')
+        # return render_template('results.html', form=form, results=parks, origin=city)
 
     #     for park in skatepark_result:
     #         b = time.time()
@@ -95,9 +99,9 @@ def results():
     #         places_results.append(entry)
     #         print(city, park['name'], address, park['rating'], distance, duration, photo_url)
     #         print(f'speed = {time.time() - b}')
-    #     db_reset()
-    #     db.session.add_all(places_results)
-    #     db.session.commit()
+        # db_reset()
+        # db.session.add_all(places_results)
+        # db.session.commit()
 
     # # pagination
     # page = request.args.get('page', 1, type=int)
