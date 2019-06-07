@@ -14,9 +14,9 @@
 
     <h1>Parks near {{ origin }} </h1>
     <div class="results">
-    {% for park in results.items %}
+    {% for park in results %}
         <h2>{{ park['name'] }}</h2>
-        <li>Address: {{ park['address'] }}</li>
+        <li>Address: {{ park['destination'] }}</li>
         <!-- <li>Rating: {{ park['rating'] }}</li> -->
         <li>Distance: {{ park['distance'] }}</li>
         <li>It will take approximately {{ park['duration'] }} to get there.</li>
@@ -24,12 +24,5 @@
         <br>
         <br>
     </div>
-    {% endfor %}
-    {% for page_num in results.iter_pages() %}
-        {% if page_num %}
-            <a class="btn" href="{{ url_for('results', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-            ...
-        {% endif %}
     {% endfor %}
 {% endblock content %}

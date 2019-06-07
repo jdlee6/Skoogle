@@ -35,11 +35,17 @@ def make_parks(data):
     return (Park(x) for x in data)
 
 
+def miles_to_meters(miles):
+    return int(float(miles)*1609.344)
+
+
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     start = time.time()
     places_results = []
     form = SearchForm()
+    DISTANCE_RADIUS = miles_to_meters(form.radius.data)
+    # DISTANCE_RADIUS = 400000
     if form.validate_on_submit():
         geolocator = Nominatim(user_agent="myapplication")
         global city
@@ -49,7 +55,7 @@ def results():
         latitude = location.latitude
         skatepark_result = gmaps.places(
             query=query[0] or query[1],
-            radius=40000,
+            radius=DISTANCE_RADIUS,
             location=f'{latitude}, {longitude}')['results']
         address_list = [park['formatted_address'] for park in skatepark_result]
         address_string = '|'.join(address_list)
@@ -68,11 +74,10 @@ def results():
         ]
         dest_info = build_destination(names, destinations, distances, durations)
         parks = list(make_parks(dest_info))
-        for park in parks:
-            print(park, end='\n')
-        # park_dicts = [park.__dict__ for park in parks]
-        print(f'\n\n\n A: Elapsed = {time.time() - a}\n\n\n\n')
-        # return render_template('results.html', form=form, results=parks, origin=city)
+        # for park in parks:
+        #     print(park, end='\n')
+        print(f'\n\n\nExec time: Elapsed = {time.time() - a}\n\n\n\n')
+        return render_template('results.html', form=form, results=parks, origin=city)
 
     #     for park in skatepark_result:
     #         b = time.time()
@@ -110,7 +115,7 @@ def results():
     # print(f'Finished: Exec time = {time.time() - start}')
 
     # return render_template('results.html', form=form, results=page_results, origin=city)
-    return 'CONSTRUCTION'
+    # return 'CONSTRUCTION'
 
 
 # sort by routes

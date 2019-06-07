@@ -13,7 +13,8 @@ class Park(object):
         temp = list(data)
         self.name = temp[0]
         self.destination = temp[1]
-        self.distance = temp[2]['text']
+        # multiply the number of kilometers by 0.62137.
+        self.distance = str(int(float(temp[2]['value']) * 0.00062137)) + ' Miles'
         self.duration = temp[3]['text']
 
     def __repr__(self):
