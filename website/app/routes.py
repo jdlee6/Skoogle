@@ -5,7 +5,6 @@ from geopy.geocoders import Nominatim
 from app import app, API_KEY, db
 from app.models import Result
 from app.classes.Park import Park
-
 import time
 
 gmaps = googlemaps.Client(key=API_KEY)
@@ -76,7 +75,7 @@ def results():
         parks = list(make_parks(dest_info))
         # for park in parks:
         #     print(park, end='\n')
-        print(f'\n\n\nExec time: Elapsed = {time.time() - a}\n\n\n\n')
+        print(f'\n\n\nExec time: {time.time() - a}\n\n\n\n')
         return render_template('results.html', form=form, results=parks, origin=city)
 
     #     for park in skatepark_result:
