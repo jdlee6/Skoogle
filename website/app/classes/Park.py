@@ -3,6 +3,7 @@ class Park(object):
         self.destination = None
         self.distance = None
         self.duration = None
+        self.photo_url = None
         '''Initialize the object from the data'''
         self.__initialize__(data)
 
