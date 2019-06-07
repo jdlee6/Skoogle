@@ -4,6 +4,7 @@ from app.forms import SearchForm
 from geopy.geocoders import Nominatim
 from app import app, API_KEY, db
 from app.models import Result
+from app.classes.Park import Park
 
 import time
 
@@ -44,6 +45,7 @@ def results():
 
         a = time.time()
         desp = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=address_string, transit_mode='driving')
+        print(desp)
         print(f'\n\n\n A: Elapsed = {time.time() - a}\n\n\n\n')
 
         for park in skatepark_result:
@@ -70,7 +72,7 @@ def results():
                             photo=photo_url)
             places_results.append(entry)
             print(city, park['name'], address, park['rating'], distance, duration, photo_url)
-            
+            print(f'speed = {time.time() - b}')
         db_reset()
         db.session.add_all(places_results)
         db.session.commit()
