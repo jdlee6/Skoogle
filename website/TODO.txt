@@ -2,24 +2,11 @@
 ####TO DO#####
 ###############
 
-*create database of results [complete]
+*implement error handling pages (403, 404, 500) [complete]
 
-*implement pictures of skateparks [complete]
-
-*paginate the results page [complete]
-    *default pagination set to shortest amount of duration to get to park [complete]
-
-*implement nav bar to go back to search page [complete]
-
-*implement a sort-by feature [complete]
-
-*implement home page theme [complete]
-
-*implement results page theme 
+*implement results page theme (flexgrid?)
 
 *implement a loading page
-
-*implement error handling pages (403, 404, 500)
 
 
 ## OPTIMIZATIONS

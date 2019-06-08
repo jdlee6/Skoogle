@@ -62,7 +62,6 @@ def results():
         desp = gmaps.distance_matrix(origins=f'{latitude}, {longitude}',
                                      destinations=address_string,
                                      transit_mode='driving')
-        print(skatepark_result[0]['name'])
         names = [park['name'] for park in skatepark_result]
         destinations = desp['destination_addresses']
         durations = [
@@ -71,6 +70,8 @@ def results():
         distances = [
             element['distance'] for element in desp['rows'][0]['elements']
         ]
+        print(names, destinations, durations, distances)
+
         dest_info = build_destination(names, destinations, distances, durations)
         parks = list(make_parks(dest_info))
         # for park in parks:
@@ -164,3 +165,20 @@ def time_slow():
                            form=form,
                            results=page_results,
                            origin=city)
+
+
+''' error handling '''
+
+@app.errorhandler(403)
+def error_403(error):
+    return render_template('/errors/403.html'), 403
+
+
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('errors/404.html'), 404
+
+
+@app.errorhandler(500)
+def error_500(error):
+    return render_template('errors/500.html'), 500
