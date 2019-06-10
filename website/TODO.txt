@@ -1,10 +1,9 @@
 ###############
 ####TO DO#####
 ###############
-
-*fix sort by feature (need to append park object to database)
-
 *implement results page theme  [in progress]
+*fix pagination on results page (NoneType Error)
+*implement pictures
 
 ## OPTIMIZATIONS
 # Optimize the database

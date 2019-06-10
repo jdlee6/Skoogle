@@ -1,4 +1,4 @@
-from flask import redirect, url_for, render_template, request
+from flask import redirect, url_for, render_template, request, abort
 import googlemaps, json, os, requests
 from app.forms import SearchForm
 from geopy.geocoders import Nominatim
@@ -6,6 +6,7 @@ from app import app, API_KEY, db
 from app.models import Result
 from app.classes.Park import Park
 import time
+
 
 gmaps = googlemaps.Client(key=API_KEY)
 query = ['skatepark', 'skate park']
@@ -26,7 +27,6 @@ def home():
 
 
 def build_destination(names, destinations, ratings, distances, durations):
-    # [(destination, distance, duration)]
     return list(zip(names, destinations, ratings, distances, durations))
 
 
@@ -40,11 +40,9 @@ def miles_to_meters(miles):
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-    start = time.time()
-    places_results = []
     form = SearchForm()
     DISTANCE_RADIUS = miles_to_meters(form.radius.data)
-    # DISTANCE_RADIUS = 400000
+
     if form.validate_on_submit():
         geolocator = Nominatim(user_agent="myapplication")
         global city
@@ -71,104 +69,84 @@ def results():
         distances = [
             element['distance'] for element in desp['rows'][0]['elements']
         ]
-        print(names, destinations, ratings, durations, distances)
+        print(city, names, destinations, ratings, durations, distances)
 
         dest_info = build_destination(names, destinations, ratings, distances, durations)
         parks = list(make_parks(dest_info))
-        # for park in parks:
-        #     print(park, end='\n')
-        print(f'\n\n\nExec time: {time.time() - a}\n\n\n\n')
-        return render_template('results.html', form=form, results=parks, origin=city)
 
-    #     for park in skatepark_result:
-    #         b = time.time()
-    #         address = park['formatted_address']
-    #         distance_response = gmaps.distance_matrix(origins=f'{latitude}, {longitude}', destinations=address, transit_mode='driving')
-    #         distance = distance_response['rows'][0]['elements'][0]['distance']['text']
-    #         duration = distance_response['rows'][0]['elements'][0]['duration']['text']
+        # adding to park instance attribtues to database
+        # missing photo url 
+        db_reset()
+        for park in parks:
+            entry = Result(city=city,
+                    name=park.name,
+                    address=park.destination,
+                    rating=park.rating,
+                    distance=park.distance,
+                    duration=park.duration)
+            db.session.add(entry)
+            db.session.commit()
 
-    #         # retrieve photo url (some don't have photos)
-    #         try:
-    #             for photo in park['photos']:
-    #                 reference = photo['photo_reference']
-    #                 photo_url = requests.get(default_url + 'maxwidth=' + width +'&photoreference=' + reference + '&key=' + API_KEY).url
-    #         except Exception as e:
-    #             print(f'{e}')
+        # pagination
+        ''' TODO: Fix issue (when trying to access another page on "results.html") - 
+        distance_radius is not appearing in database because it is only registering 
+        from form data'''
+        page = request.args.get('page', 1, type=int)
+        page_results = Result.query.order_by(Result.duration.asc()).paginate(page=page, per_page=10)
 
-    #         entry = Result(origin=city,
-    #                         name=park['name'],
-    #                         address=park['formatted_address'],
-    #                         rating=park['rating'],
-    #                         distance=distance,
-    #                         duration=duration,
-    #                         photo=photo_url)
-    #         places_results.append(entry)
-    #         print(city, park['name'], address, park['rating'], distance, duration, photo_url)
-    #         print(f'speed = {time.time() - b}')
-        # db_reset()
-        # db.session.add_all(places_results)
-        # db.session.commit()
+    # if user attempts to search for parks more than a 99 mile radius user will be sent to 403 page
+    elif not form.validate_on_submit():
+        abort(403)
 
-    # # pagination
-    # page = request.args.get('page', 1, type=int)
-    # page_results = Result.query.order_by(Result.duration.asc()).paginate(page=page, per_page=5)
-
-    # print(f'Finished: Exec time = {time.time() - start}')
-
-    # return render_template('results.html', form=form, results=page_results, origin=city)
-    # return 'CONSTRUCTION'
-
+    print(f'\n\n\nExec time: {time.time() - a}\n\n\n\n')
+    return render_template('results.html', form=form, results=page_results, origin=city)
+        
 
 # sort by routes
 @app.route('/rate_high', methods=['GET', 'POST'])
 def rate_high():
-    city = Result.query.with_entities(Result.origin).limit(1).scalar()
+    city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
-    page_results = Result.query.order_by(Result.rating.desc()).paginate(
-        page=page, per_page=5)
+    page_results = Result.query.order_by(Result.rating.desc())\
+                                                .paginate(page=page, per_page=4)
     return render_template('rate_high.html', results=page_results, origin=city)
 
 
 @app.route('/rate_low', methods=['GET', 'POST'])
 def rate_low():
-    city = Result.query.with_entities(Result.origin).limit(1).scalar()
-    form = SearchForm()
+    city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
-    page_results = Result.query.order_by(Result.rating.asc()).paginate(
-        page=page, per_page=5)
+    page_results = Result.query.order_by(Result.rating.asc())\
+                                                .paginate(page=page, per_page=4)
     return render_template('rate_low.html',
-                           form=form,
                            results=page_results,
                            origin=city)
 
 
 @app.route('/time_fast', methods=['GET', 'POST'])
 def time_fast():
-    city = Result.query.with_entities(Result.origin).limit(1).scalar()
-    form = SearchForm()
+    city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
-    page_results = Result.query.order_by(Result.duration.asc()).paginate(
-        page=page, per_page=5)
+    page_results = Result.query.order_by(Result.duration.asc())\
+                                                .paginate(page=page, per_page=4)
     return render_template('time_fast.html',
-                           form=form,
                            results=page_results,
                            origin=city)
 
 
 @app.route('/time_slow', methods=['GET', 'POST'])
 def time_slow():
-    city = Result.query.with_entities(Result.origin).limit(1).scalar()
-    form = SearchForm()
+    city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
-    page_results = Result.query.order_by(Result.duration.desc()).paginate(
-        page=page, per_page=5)
+    page_results = Result.query.order_by(Result.duration.desc())\
+                                                .paginate(page=page, per_page=4)
     return render_template('time_slow.html',
-                           form=form,
                            results=page_results,
                            origin=city)
 
 
 ''' error handling '''
+
 
 @app.errorhandler(403)
 def error_403(error):

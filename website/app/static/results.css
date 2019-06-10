@@ -15,6 +15,31 @@ body{
     background: none;
 }
 
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: rgb(187, 177, 38);
+    background-color: none;
+   
+  }
+   
+  .page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: rgb(233, 168, 84);
+    border-color: none;
+  }
+   
+  .page-link:focus, .page-link:hover {
+    color: #fff;
+    text-decoration: underline;
+    background-color: rgb(233, 168, 84);
+    border-color: none;
+  }
+   
 .wrapper {
     /** Top padding so that initially, the content is below the header **/
     padding-top: 100px;
@@ -24,22 +49,31 @@ body{
 .header {
     height: 100px;
     width: 400px; /** Use 100% to fill the width of the page **/
-    font-family: Rockwell;
+    font-family: monospace;
+    font-size: 14px;
     position: fixed;
     top: 10%;
-    left: 8%;
+    left: 2%;
     right: 0;
     margin: 0 auto;
     color: white;
     background-color: rgba(0,0,0,0);
 }
 
-
+/* testing layout */
 .my-flex-container{
-    border: 2px solid rgb(215, 245, 255);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: center;
+    /* border: 2px solid rgb(215, 245, 255);
     height: 215px;
     width: 600px;
-    margin-bottom:10px;
+    margin-bottom:10px; */
+}
+
+.item{
+    margin: 20px;
 }
 
 .my-flex-container-column{
@@ -71,22 +105,7 @@ body{
     border: 1px dotted grey;
     height: 88px;
 }
-
-/* testing layout */
-.cards {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
- }
-
- /* styling out indivdual cards */
- .card {
-     /* #1 = flex-grow
-         #2 = flex-shrink
-         #3 = width */
-    flex: 0 1 24%;
-}
-
+  
 /*  make image opaque on hover (smooth) */
 img {
     opacity: 0.5;
