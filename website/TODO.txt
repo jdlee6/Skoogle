@@ -2,12 +2,9 @@
 ####TO DO#####
 ###############
 
-*implement error handling pages (403, 404, 500) [complete]
+*fix sort by feature (need to append park object to database)
 
-*implement results page theme (flexgrid?)
-
-*implement a loading page
-
+*implement results page theme  [in progress]
 
 ## OPTIMIZATIONS
 # Optimize the database

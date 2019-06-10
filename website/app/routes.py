@@ -25,9 +25,9 @@ def home():
     return render_template('home.html', form=form)
 
 
-def build_destination(name, destinations, distances, durations):
+def build_destination(names, destinations, ratings, distances, durations):
     # [(destination, distance, duration)]
-    return list(zip(name, destinations, distances, durations))
+    return list(zip(names, destinations, ratings, distances, durations))
 
 
 def make_parks(data):
@@ -63,6 +63,7 @@ def results():
                                      destinations=address_string,
                                      transit_mode='driving')
         names = [park['name'] for park in skatepark_result]
+        ratings = [park['rating'] for park in skatepark_result]
         destinations = desp['destination_addresses']
         durations = [
             element['duration'] for element in desp['rows'][0]['elements']
@@ -70,9 +71,9 @@ def results():
         distances = [
             element['distance'] for element in desp['rows'][0]['elements']
         ]
-        print(names, destinations, durations, distances)
+        print(names, destinations, ratings, durations, distances)
 
-        dest_info = build_destination(names, destinations, distances, durations)
+        dest_info = build_destination(names, destinations, ratings, distances, durations)
         parks = list(make_parks(dest_info))
         # for park in parks:
         #     print(park, end='\n')

@@ -1,0 +1,103 @@
+body{
+    /* The image used */
+    background-image: url("http://paperlief.com/images/dark-blue-gradient-wallpaper-4.jpg");
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+.navbar-default {
+    background: none;
+}
+
+.wrapper {
+    /** Top padding so that initially, the content is below the header **/
+    padding-top: 100px;
+
+}
+
+.header {
+    height: 100px;
+    width: 400px; /** Use 100% to fill the width of the page **/
+    font-family: Rockwell;
+    position: fixed;
+    top: 10%;
+    left: 8%;
+    right: 0;
+    margin: 0 auto;
+    color: white;
+    background-color: rgba(0,0,0,0);
+}
+
+
+.my-flex-container{
+    border: 2px solid rgb(215, 245, 255);
+    height: 215px;
+    width: 600px;
+    margin-bottom:10px;
+}
+
+.my-flex-container-column{
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+    transition: opacity .5s ease-out;
+    -moz-transition: opacity .5s ease-out;
+    -webkit-transition: opacity .5s ease-out;
+    -o-transition: opacity .5s ease-out;
+    border: 0px solid rgb(174, 219, 255);
+    height: 215px;
+    width: 500px;
+    margin-bottom: 20px;
+}
+
+.my-flex-container-column:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+  }
+
+.my-flex-item{
+    background-color: rgb(215, 245, 255, 1);
+    border: 1px dotted grey;
+    height: 48px;
+}
+
+.my-flex-item-2{
+    background-color: rgb(215, 245, 255, 1);
+    border: 1px dotted grey;
+    height: 88px;
+}
+
+/* testing layout */
+.cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+ }
+
+ /* styling out indivdual cards */
+ .card {
+     /* #1 = flex-grow
+         #2 = flex-shrink
+         #3 = width */
+    flex: 0 1 24%;
+}
+
+/*  make image opaque on hover (smooth) */
+img {
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+    transition: opacity .5s ease-out;
+    -moz-transition: opacity .5s ease-out;
+    -webkit-transition: opacity .5s ease-out;
+    -o-transition: opacity .5s ease-out;
+  }
+  
+  img:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+  }
