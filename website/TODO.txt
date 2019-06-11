@@ -2,7 +2,7 @@
 ####TO DO#####
 ###############
 *implement results page theme  [in progress]
-*fix pagination on results page (NoneType Error)
+*fix sort by results (time)
 *implement pictures
 
 ## OPTIMIZATIONS

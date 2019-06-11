@@ -41,9 +41,10 @@ def miles_to_meters(miles):
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     form = SearchForm()
-    DISTANCE_RADIUS = miles_to_meters(form.radius.data)
+
 
     if form.validate_on_submit():
+        DISTANCE_RADIUS = miles_to_meters(form.radius.data)
         geolocator = Nominatim(user_agent="myapplication")
         global city
         city = form.location.data
@@ -79,6 +80,7 @@ def results():
         db_reset()
         for park in parks:
             entry = Result(city=city,
+                    # radius = DISTANCE_RADIUS,
                     name=park.name,
                     address=park.destination,
                     rating=park.rating,
@@ -87,20 +89,18 @@ def results():
             db.session.add(entry)
             db.session.commit()
 
-        # pagination
-        ''' TODO: Fix issue (when trying to access another page on "results.html") - 
-        distance_radius is not appearing in database because it is only registering 
-        from form data'''
-        page = request.args.get('page', 1, type=int)
-        page_results = Result.query.order_by(Result.duration.asc()).paginate(page=page, per_page=10)
+        ''' TODO: GET request method to fix pagination issue (missing form data) '''
+        if request.method == 'GET':
+            page = request.args.get('page', type=int)
+            radius = request.form.get('radius')
+            return redirect(url_for('results', page=page, radius=radius))
 
-    # if user attempts to search for parks more than a 99 mile radius user will be sent to 403 page
-    elif not form.validate_on_submit():
-        abort(403)
+    # pagination
+    page = request.args.get('page', 1, type=int)
+    radius = request.form.get('radius')
+    page_results = Result.query.paginate(page=page, per_page=4)
 
-    print(f'\n\n\nExec time: {time.time() - a}\n\n\n\n')
-    return render_template('results.html', form=form, results=page_results, origin=city)
-        
+    return render_template('results.html', form=form, results=page_results, origin=city, radius=radius)
 
 # sort by routes
 @app.route('/rate_high', methods=['GET', 'POST'])
