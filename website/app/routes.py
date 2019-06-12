@@ -82,7 +82,6 @@ def results():
         db_reset()
         for park in parks:
             entry = Result(city=city,
-                    # radius = DISTANCE_RADIUS,
                     name=park.name,
                     address=park.destination,
                     rating=park.rating,
@@ -90,8 +89,7 @@ def results():
                     duration=seconds_to_minutes(park.duration))
             db.session.add(entry)
             db.session.commit()
-
-        ''' TODO: GET request method to fix pagination issue (missing form data) '''
+            
         if request.method == 'GET':
             page = request.args.get('page', type=int)
             radius = request.form.get('radius')
