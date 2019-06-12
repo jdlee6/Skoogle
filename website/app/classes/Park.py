@@ -19,7 +19,7 @@ class Park(object):
         self.rating = temp[2]
         # multiply the number of kilometers by 0.62137.
         self.distance = str(int(float(temp[3]['value']) * 0.00062137)) + ' Miles'
-        self.duration = temp[4]['text']
+        self.duration = temp[4]['value']
 
     def __repr__(self):
         return f'Name: {self.name}\nDestination: {self.destination}\nRating: {self.rating}\nDistance: {self.distance}\nETA: {self.duration}'

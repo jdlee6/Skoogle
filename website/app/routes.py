@@ -38,14 +38,16 @@ def miles_to_meters(miles):
     return int(float(miles)*1609.344)
 
 
+def seconds_to_minutes(seconds):
+    return int(seconds / 60)
+
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     form = SearchForm()
 
-
     if form.validate_on_submit():
-        DISTANCE_RADIUS = miles_to_meters(form.radius.data)
         geolocator = Nominatim(user_agent="myapplication")
+        DISTANCE_RADIUS = miles_to_meters(form.radius.data)
         global city
         city = form.location.data
         location = geolocator.geocode(city)
@@ -85,7 +87,7 @@ def results():
                     address=park.destination,
                     rating=park.rating,
                     distance=park.distance,
-                    duration=park.duration)
+                    duration=seconds_to_minutes(park.duration))
             db.session.add(entry)
             db.session.commit()
 

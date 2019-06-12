@@ -2,7 +2,6 @@
 ####TO DO#####
 ###############
 *implement results page theme  [in progress]
-*fix sort by results (time)
 *implement pictures
 
 ## OPTIMIZATIONS
