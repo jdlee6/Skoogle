@@ -43,16 +43,15 @@ body{
 .wrapper {
     /** Top padding so that initially, the content is below the header **/
     padding-top: 100px;
-
 }
 
 .header {
     height: 100px;
-    width: 400px; /** Use 100% to fill the width of the page **/
+    width: 800px; /** Use 100% to fill the width of the page **/
     font-family: monospace;
     font-size: 14px;
     position: fixed;
-    top: 10%;
+    top: 5%;
     left: 2%;
     right: 0;
     margin: 0 auto;
@@ -60,54 +59,53 @@ body{
     background-color: rgba(0,0,0,0);
 }
 
-/* testing layout */
-.my-flex-container{
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px;
-    justify-content: center;
-    /* border: 2px solid rgb(215, 245, 255);
-    height: 215px;
-    width: 600px;
-    margin-bottom:10px; */
-}
-
-.item{
-    margin: 20px;
-}
-
-.my-flex-container-column{
-    opacity: 0.5;
-    filter: alpha(opacity=50); /* For IE8 and earlier */
-    transition: opacity .5s ease-out;
-    -moz-transition: opacity .5s ease-out;
-    -webkit-transition: opacity .5s ease-out;
-    -o-transition: opacity .5s ease-out;
-    border: 0px solid rgb(174, 219, 255);
-    height: 215px;
-    width: 500px;
-    margin-bottom: 20px;
-}
-
-.my-flex-container-column:hover {
-    opacity: 1.0;
-    filter: alpha(opacity=100); /* For IE8 and earlier */
+  /*  LAYOUT */
+  figcaption {
+    caption-side: bottom;
+    color: white;
+  }
+  
+  .container {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 1rem;
   }
 
-.my-flex-item{
-    background-color: rgb(215, 245, 255, 1);
-    border: 1px dotted grey;
-    height: 48px;
-}
+  .responsive-image {
+    max-width: 100%;
+    height: 400px;
+    margin-top: -73px;
+  }
 
-.my-flex-item-2{
-    background-color: rgb(215, 245, 255, 1);
-    border: 1px dotted grey;
-    height: 88px;
-}
-  
-/*  make image opaque on hover (smooth) */
-img {
+  .cell img {
+    display: block;
+  }
+
+  /* tablet screen */
+  @media screen and (min-width: 600px) {
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+    .cell {
+      width: calc(50% - 2rem);
+    }
+  }
+
+  /* desktop screen */
+  @media screen and (min-width: 1000px) {
+    .cell {
+      width:(calc(100% / 3) - 2rem);
+    }
+  }
+
+  .cell {
+    margin: 1rem;
+  }
+
+  /*  make image opaque on hover (smooth) */
+  img {
     opacity: 0.5;
     filter: alpha(opacity=50); /* For IE8 and earlier */
     transition: opacity .5s ease-out;

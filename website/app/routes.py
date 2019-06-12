@@ -5,13 +5,13 @@ from geopy.geocoders import Nominatim
 from app import app, API_KEY, db
 from app.models import Result
 from app.classes.Park import Park
-import time
+import time, pprint
 
 
 gmaps = googlemaps.Client(key=API_KEY)
 query = ['skatepark', 'skate park']
 default_url = 'https://maps.googleapis.com/maps/api/place/photo?'
-width = '300'
+height = "1000"
 
 
 def db_reset():
@@ -26,8 +26,8 @@ def home():
     return render_template('home.html', form=form)
 
 
-def build_destination(names, destinations, ratings, distances, durations):
-    return list(zip(names, destinations, ratings, distances, durations))
+def build_destination(names, destinations, ratings, distances, durations, photo_url):
+    return list(zip(names, destinations, ratings, distances, durations, photo_url))
 
 
 def make_parks(data):
@@ -41,10 +41,10 @@ def miles_to_meters(miles):
 def seconds_to_minutes(seconds):
     return int(seconds / 60)
 
+
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     form = SearchForm()
-
     if form.validate_on_submit():
         geolocator = Nominatim(user_agent="myapplication")
         DISTANCE_RADIUS = miles_to_meters(form.radius.data)
@@ -72,13 +72,31 @@ def results():
         distances = [
             element['distance'] for element in desp['rows'][0]['elements']
         ]
-        print(city, names, destinations, ratings, durations, distances)
 
-        dest_info = build_destination(names, destinations, ratings, distances, durations)
+        ''' TODO - needs to be optimized '''
+        # photo references + photo url
+        photo_list = [] 
+        for park in skatepark_result:
+            try:
+                for photo in park['photos']:
+                    reference = photo['photo_reference']
+                    photo_url = requests.get(default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + API_KEY).url
+                    photo_list.append(photo_url)
+            except Exception as e:
+                print(f'{e}')
+
+        # references = [
+        #     [photo['photo_reference'] for photo in park['photos']] for park in skatepark_result
+        # ]
+        # photo_url = [
+        #     requests.get(default_url + 'maxheight=' + height + '&photoreference=' + reference[0] + '&key=' + API_KEY).url for reference in references
+        # ]
+
+        print(city, names, destinations, ratings, durations, distances, photo_list)
+        dest_info = build_destination(names, destinations, ratings, distances, durations, photo_list)
         parks = list(make_parks(dest_info))
 
-        # adding to park instance attribtues to database
-        # missing photo url 
+        # adding to park instance attributes to database
         db_reset()
         for park in parks:
             entry = Result(city=city,
@@ -86,10 +104,12 @@ def results():
                     address=park.destination,
                     rating=park.rating,
                     distance=park.distance,
-                    duration=seconds_to_minutes(park.duration))
+                    duration=seconds_to_minutes(park.duration),
+                    photo_url=park.photo_url)
             db.session.add(entry)
             db.session.commit()
             
+        print(f'speed = {time.time() - a}')    
         if request.method == 'GET':
             page = request.args.get('page', type=int)
             radius = request.form.get('radius')
@@ -98,9 +118,10 @@ def results():
     # pagination
     page = request.args.get('page', 1, type=int)
     radius = request.form.get('radius')
-    page_results = Result.query.paginate(page=page, per_page=4)
+    page_results = Result.query.paginate(page=page, per_page=2)
 
     return render_template('results.html', form=form, results=page_results, origin=city, radius=radius)
+
 
 # sort by routes
 @app.route('/rate_high', methods=['GET', 'POST'])
@@ -108,7 +129,7 @@ def rate_high():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
     page_results = Result.query.order_by(Result.rating.desc())\
-                                                .paginate(page=page, per_page=4)
+                                                .paginate(page=page, per_page=2)
     return render_template('rate_high.html', results=page_results, origin=city)
 
 
@@ -117,7 +138,7 @@ def rate_low():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
     page_results = Result.query.order_by(Result.rating.asc())\
-                                                .paginate(page=page, per_page=4)
+                                                .paginate(page=page, per_page=2)
     return render_template('rate_low.html',
                            results=page_results,
                            origin=city)
@@ -128,7 +149,7 @@ def time_fast():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
     page_results = Result.query.order_by(Result.duration.asc())\
-                                                .paginate(page=page, per_page=4)
+                                                .paginate(page=page, per_page=2)
     return render_template('time_fast.html',
                            results=page_results,
                            origin=city)
@@ -139,7 +160,7 @@ def time_slow():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
     page = request.args.get('page', 1, type=int)
     page_results = Result.query.order_by(Result.duration.desc())\
-                                                .paginate(page=page, per_page=4)
+                                                .paginate(page=page, per_page=2)
     return render_template('time_slow.html',
                            results=page_results,
                            origin=city)

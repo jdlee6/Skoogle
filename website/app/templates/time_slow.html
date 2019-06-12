@@ -22,44 +22,47 @@
 </br>
 
 <div class="wrapper">
-    <div class="header">
-        <div class="content">
-            <h1>Parks near {{ origin }} </h1>
+        <div class="header">
+            <div class="content">
+                <h1 align="center">Parks near {{ origin }} </h1>
+            </div>
         </div>
     </div>
-</div>
-
-        <div align="center" class="container">
-                {% for park in results.items %}
-                <div class="d-flex flex-column my-flex-container-column">
-                        <div class='p-2 my-flex-item'>{{ park['name'] }}</div>
-                        <div class='p-2 my-flex-item-2'>Address: {{ park['address'] }}</div>
-                        <div class='p-2 my-flex-item'>Rating: {{ park['rating'] }}</div>
-                        <div class='p-2 my-flex-item'>Distance: {{ park['distance'] }}</div>
-                        <div class='p-2 my-flex-item'>It will take approximately {{ park['duration'] }} minutes to get there.</div>
-                        <!-- <img src="{{ park['photo'] }}" alt="{{ park['name'] }}">  -->
-                </div>
-
-                <br>
-                <br>
-                <br>
-
-                {% endfor %}
-                <nav aria-label="...">
-                    <ul class="pagination pagination-sm justify-content-center">    
-                    {% for page_num in results.iter_pages() %}
-                        {% if page_num %}
-                            {% if results.page == page_num %}
-                                <li class="page-item active"><a class="page-link" href="{{ url_for('time_slow', page=page_num) }}">{{ page_num }}</a></li>
-                            {% else %}
-                                <li class="page-item"><a class="page-link" href="{{ url_for('time_slow', page=page_num) }}">{{ page_num }}</a></li>
-                            {% endif %}
-                        {% else %}
-                            ...
-                        {% endif %}
-                    {% endfor %}
-                </nav>
-                </div>
+    
+    
+<figure>
+    <div class="container">
+        <div class="grid">
+            {% for park in results.items %}
+            <div class="cell">
+                <img src="{{ park['photo_url'] }}" class="responsive-image" width="1000" height="500"/>
+            </br>
+                    <figcaption align="center">{{ park['name'] }}</figcaption>
+                    <figcaption align="center">{{ park['address'] }}</figcaption>
+                    <figcaption align="center">Rating: {{ park['rating'] }}</figcaption>
+                    <figcaption align="center">Distance: {{ park['distance'] }}</figcaption>
+                    <figcaption align="center">It will take approximately {{ park['duration'] }} minutes to get there</figcaption>
+            </div>
+            {% endfor %}
         </div>
-</div>
+    </div>
+</figure>
+
+                    <nav aria-label="...">
+                        <ul class="pagination pagination-sm justify-content-center">    
+                        {% for page_num in results.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                            {% if page_num %}
+                                {% if results.page == page_num %}
+                                    <li class="page-item active"><a class="page-link" href="{{ url_for('time_slow', page=page_num) }}">{{ page_num }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="{{ url_for('time_slow', page=page_num) }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% else %}
+                                ...
+                            {% endif %}
+                        {% endfor %}
+                    </nav>
+                    </div>
+            </div>
+    </div>
 {% endblock content %}
