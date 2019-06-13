@@ -3,7 +3,7 @@
     <div class="bg"></div>
     <div class="bg-img">
         <nav class="navbar-default navbar">
-            <a href="{{ url_for('home') }}">Search</a>
+            <a href="{{ url_for('home') }}" style="color:rgb(4, 24, 56)">Search</a>
             <select onchange="location = this.value;">
                 <option value="">Sort By</option>
                 <option value="{{ url_for('rate_high') }}">Rating (High to Low)</option>

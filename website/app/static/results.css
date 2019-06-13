@@ -1,13 +1,13 @@
 body{
     /* The image used */
-    background-image: url("http://paperlief.com/images/dark-blue-gradient-wallpaper-4.jpg");
+    background-image: url("https://c.pxhere.com/photos/2e/3e/concrete_wall_grunge_concrete_wall_cement_grey_room_construction-498593.jpg!d");
   
     /* Full height */
     height: 100%;
   
     /* Center and scale the image nicely */
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-attachment: fixed;
   }
 
@@ -16,53 +16,53 @@ body{
 }
 
 .page-link {
+    color: #fff;
     position: relative;
     display: block;
     padding: 0.5rem 0.75rem;;
     margin-left: -1px;
     line-height: 1.25;
-    color: rgb(187, 177, 38);
+    color: rgb(133, 190, 255);
     background-color: none;
-   
   }
-   
+
   .page-item.active .page-link {
     z-index: 1;
     color: #fff;
-    background-color: rgb(233, 168, 84);
-    border-color: none;
+    background-color: rgb(133, 190, 255);
   }
    
   .page-link:focus, .page-link:hover {
     color: #fff;
     text-decoration: underline;
-    background-color: rgb(233, 168, 84);
-    border-color: none;
+    background-color: rgb(133, 190, 255);
   }
-   
+
 .wrapper {
     /** Top padding so that initially, the content is below the header **/
     padding-top: 100px;
+    
 }
 
 .header {
     height: 100px;
     width: 800px; /** Use 100% to fill the width of the page **/
-    font-family: monospace;
-    font-size: 14px;
+    font-family: inherit;
     position: fixed;
     top: 5%;
     left: 2%;
     right: 0;
     margin: 0 auto;
-    color: white;
+    color: rgb(0, 29, 92);
     background-color: rgba(0,0,0,0);
 }
 
   /*  LAYOUT */
   figcaption {
     caption-side: bottom;
-    color: white;
+    color: rgb(4, 24, 56);
+    font-family: monospace;
+    font-size: 15px;
   }
   
   .container {
@@ -73,8 +73,10 @@ body{
 
   .responsive-image {
     max-width: 100%;
-    height: 400px;
+    /* width: 1000px; */
+    height: 390px;
     margin-top: -73px;
+
   }
 
   .cell img {
@@ -106,7 +108,7 @@ body{
 
   /*  make image opaque on hover (smooth) */
   img {
-    opacity: 0.5;
+    opacity: 0.75;
     filter: alpha(opacity=50); /* For IE8 and earlier */
     transition: opacity .5s ease-out;
     -moz-transition: opacity .5s ease-out;
