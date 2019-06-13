@@ -5,7 +5,7 @@ from geopy.geocoders import Nominatim
 from app import app, API_KEY, db
 from app.models import Result
 from app.classes.Park import Park
-import time, pprint
+import time
 
 
 gmaps = googlemaps.Client(key=API_KEY)

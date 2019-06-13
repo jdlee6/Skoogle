@@ -1,19 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
-
     <div class="bg"></div>
-
     <!-- Search form -->
     <div class="bg-img centered">
         <form method="POST" action="{{ url_for('results') }}" class="container-centered">
             {{ form.hidden_tag() }}
-
             <fieldset class="form-group">
                 <div class="form-group">
                         {{ form.location.label(class="form-control-label") }}
-
                         {% if  form.location.errors %}
                             {{ form.location(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
@@ -27,7 +22,6 @@
                     </div>
                     <div class="form-group">
                         {{ form.radius.label(class="form-control-label") }}
-
                         {% if  form.radius.errors %}
                             {{ form.radius(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
@@ -45,6 +39,5 @@
                 </div>
         </form>
     </div>
-    <!-- <div id="loading" style="display:none;"><img src="/static/loading.gif" alt="" />Loading . . .</div> -->
 </body>
 {% endblock content %}

@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'AAAAA'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/skoogle'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 db = SQLAlchemy(app)
 API_KEY = os.environ.get('API_KEY')
 print(API_KEY)
