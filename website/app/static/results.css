@@ -44,10 +44,14 @@ body{
     
 }
 
+h1 {
+    color: rgb(0, 29, 92);
+    font-family: "Source Code Pro";
+  }
+
 .header {
     height: 100px;
     width: 800px; /** Use 100% to fill the width of the page **/
-    font-family: inherit;
     position: fixed;
     top: 5%;
     left: 2%;
