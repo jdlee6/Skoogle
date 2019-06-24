@@ -21,3 +21,4 @@ Skoogle is a Flask web application that is designed to find skate parks within a
 
 ## Future Implementations
 - [_] Optimize photo retrieval and fix bugs
+- [_] Deploy on a server once bugs are cleared
