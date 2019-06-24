@@ -1,7 +1,6 @@
 ###############
 ####TO DO#####
 ###############
-*implement results page theme  [in progress]
 *picture api requests need to be optimized
 
 ## OPTIMIZATIONS

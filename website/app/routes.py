@@ -19,13 +19,6 @@ def db_reset():
     db.create_all()
 
 
-@app.route('/')
-@app.route('/home', methods=['GET', 'POST'])
-def home():
-    form = SearchForm()
-    return render_template('home.html', form=form)
-
-
 def build_destination(names, destinations, ratings, distances, durations, photo_url):
     return list(zip(names, destinations, ratings, distances, durations, photo_url))
 
@@ -40,6 +33,13 @@ def miles_to_meters(miles):
 
 def seconds_to_minutes(seconds):
     return int(seconds / 60)
+
+
+@app.route('/')
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    form = SearchForm()
+    return render_template('home.html', form=form)
 
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def results():
             element['distance'] for element in desp['rows'][0]['elements']
         ]
 
-        ''' TODO - needs to be optimized '''
+        # TODO - needs to be optimized
         # photo references + photo url
         photo_list = [] 
         for park in skatepark_result:
@@ -84,13 +84,6 @@ def results():
                     photo_list.append(photo_url)
             except Exception as e:
                 print(f'{e}')
-
-        # references = [
-        #     [photo['photo_reference'] for photo in park['photos']] for park in skatepark_result
-        # ]
-        # photo_url = [
-        #     requests.get(default_url + 'maxheight=' + height + '&photoreference=' + reference[0] + '&key=' + API_KEY).url for reference in references
-        # ]
 
         print(city, names, destinations, ratings, durations, distances, photo_list)
         dest_info = build_destination(names, destinations, ratings, distances, durations, photo_list)
@@ -166,7 +159,7 @@ def time_slow():
                            origin=city)
 
 
-''' error handling '''
+# Error Handling
 
 
 @app.errorhandler(403)
