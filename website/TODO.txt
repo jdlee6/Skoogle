@@ -2,6 +2,7 @@
 ####TO DO#####
 ###############
 *picture api requests need to be optimized
+*implement asyncio concurrent threads
 
 ## OPTIMIZATIONS
 # Optimize the database
