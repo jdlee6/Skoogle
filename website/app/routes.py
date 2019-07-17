@@ -5,7 +5,7 @@ from geopy.geocoders import Nominatim
 from app import app, API_KEY, db
 from app.models import Result
 from app.classes.Park import Park
-import time
+import time, asyncio, aiohttp
 
 
 gmaps = googlemaps.Client(key=API_KEY)
@@ -73,17 +73,20 @@ def results():
             element['distance'] for element in desp['rows'][0]['elements']
         ]
 
-        # TODO - needs to be optimized
-        # photo references + photo url
-        photo_list = [] 
-        for park in skatepark_result:
+        photo_list = []
+        async def fetch():
             try:
-                for photo in park['photos']:
-                    reference = photo['photo_reference']
-                    photo_url = requests.get(default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + API_KEY).url
-                    photo_list.append(photo_url)
+                async with aiohttp.ClientSession() as session:
+                    for park in skatepark_result:
+                        for photo in park['photos']:
+                            reference = photo['photo_reference']
+                            async with session.get(default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + API_KEY) as response:
+                                # parses yarl URL object to retrieve the string only and then appends it to photo_list
+                                photo_list.append(str(response.url))
             except Exception as e:
-                print(f'{e}')
+                print(f'Error! Missing Photo')
+        
+        asyncio.run(fetch())
 
         print(city, names, destinations, ratings, durations, distances, photo_list)
         dest_info = build_destination(names, destinations, ratings, distances, durations, photo_list)
