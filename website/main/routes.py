@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, url_for, render_template, request, abort, Flask
 from website import db, app
 from website.main.forms import SearchForm
-from website.main.utils import (db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes)
+from website.main.utils import db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes
 from website.models import Result
 from geopy.geocoders import Nominatim
 import googlemaps, json, os, requests
