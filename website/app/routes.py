@@ -73,20 +73,30 @@ def results():
             element['distance'] for element in desp['rows'][0]['elements']
         ]
 
+        # reduced time by half (from 8-10 seconds to 2-3 seconds)
         photo_list = []
-        async def fetch():
+        for park in skatepark_result:
             try:
-                async with aiohttp.ClientSession() as session:
-                    for park in skatepark_result:
-                        for photo in park['photos']:
-                            reference = photo['photo_reference']
-                            async with session.get(default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + API_KEY) as response:
-                                # parses yarl URL object to retrieve the string only and then appends it to photo_list
-                                photo_list.append(str(response.url))
+                for photo in park['photos']:
+                    reference = photo['photo_reference']
+                    photo_url = default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + API_KEY
+                    photo_list.append(photo_url)
+                print(photo_list)
             except Exception as e:
-                print(f'Error! Missing Photo')
-        
-        asyncio.run(fetch())
+                print('ERROR')
+
+        async def fetch(url):
+            async with aiohttp.ClientSession() as session:
+                async with session.get(photo_url) as response:
+                    # parses yarl URL object to retrieve the string only
+                    # print(str(response.url))
+                    pass
+
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        tasks = [loop.create_task(fetch(photo_url)) for i in range(10)]
+        loop.run_until_complete(asyncio.wait(tasks))
+        loop.close()
 
         print(city, names, destinations, ratings, durations, distances, photo_list)
         dest_info = build_destination(names, destinations, ratings, distances, durations, photo_list)
