@@ -94,7 +94,7 @@ def results():
 
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        tasks = [loop.create_task(fetch(photo_url)) for i in range(10)]
+        tasks = [loop.create_task(fetch(photo_url))]
         loop.run_until_complete(asyncio.wait(tasks))
         loop.close()
 
