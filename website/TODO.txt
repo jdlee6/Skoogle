@@ -1,8 +1,8 @@
-###############
-####TO DO#####
-###############
-*picture api requests need to be optimized
-*implement asyncio concurrent threads
+## TO DO
+# Implement blueprints [/]
+# Deploy on server with nginx and letsencrypt
+# Implement custom theme error pages
+
 
 ## OPTIMIZATIONS
 # Optimize the database

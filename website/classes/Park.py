@@ -1,5 +1,6 @@
 from math import ceil
 
+
 class Park(object):
     def __init__(self, data):
         self.name = None
@@ -12,7 +13,6 @@ class Park(object):
         self.__initialize__(data)
 
     def __initialize__(self, data):
-        '''TODO'''
         temp = list(data)
         self.name = temp[0]
         self.destination = temp[1]

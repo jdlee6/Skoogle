@@ -3,13 +3,13 @@
     <div class="bg"></div>
     <div class="bg-img">
         <nav class="navbar-default navbar">
-            <a href="{{ url_for('home') }}" style="color:rgb(4, 24, 56)">Search</a>
+            <a href="{{ url_for('main.home') }}" style="color:rgb(4, 24, 56)">Search</a>
             <select onchange="location = this.value;">
                 <option value="">Sort By</option>
-                <option value="{{ url_for('rate_high') }}">Rating (High to Low)</option>
-                <option value="{{ url_for('rate_low') }}">Rating (Low to High)</option>
-                <option value="{{ url_for('time_fast') }}">Time (Fast to Slow)</option>
-                <option value="{{ url_for('time_slow') }}">Time (Slow to Fast)</option>
+                <option value="{{ url_for('sort.rate_high') }}">Rating (High to Low)</option>
+                <option value="{{ url_for('sort.rate_low') }}">Rating (Low to High)</option>
+                <option value="{{ url_for('sort.time_fast') }}">Time (Fast to Slow)</option>
+                <option value="{{ url_for('sort.time_slow') }}">Time (Slow to Fast)</option>
             </select>
         </nav>
     </div>

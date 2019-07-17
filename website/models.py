@@ -1,4 +1,5 @@
-from app import db
+from website import db
+
 
 class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True)
