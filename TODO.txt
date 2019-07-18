@@ -1,6 +1,6 @@
 ## TO DO
 # Implement blueprints [x]
-# Implement custom theme error pages [ ]
+# Implement custom theme error pages [x]
 # Deploy on server with nginx and letsencrypt [ ]
 
 

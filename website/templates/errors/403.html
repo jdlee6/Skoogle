@@ -1,4 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Error 403</h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='403_error.css') }}">
+<div id="app">
+    <div>403</div>
+    <div class="txt">
+        Forbidden<span class="blink">_</span>
+    </div>
+</div>
 {% endblock content %}
