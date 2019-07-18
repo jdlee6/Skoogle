@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, url_for, render_template, request, abort, Flask
-from website import db, app
+from flask import current_app
+from website import db
 from website.main.forms import SearchForm
 from website.main.utils import db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes
 from website.models import Result
@@ -8,17 +9,18 @@ import googlemaps, json, os, requests
 import time, asyncio, aiohttp
 
 
-# create instance of Blueprint; 'main' is the name
-main = Blueprint('main', __name__)
-
-
-# need to import API_KEY as app.config['API_KEY']
-gmaps = googlemaps.Client(key=app.config['API_KEY'])
+# default values
+gmaps = googlemaps.Client(key=current_app.config['API_KEY'])
 query = ['skatepark', 'skate park']
 default_url = 'https://maps.googleapis.com/maps/api/place/photo?'
 height = "1000"
 
 
+# create instance of Blueprint; 'main' is the name
+main = Blueprint('main', __name__)
+
+
+# home route
 @main.route('/')
 @main.route('/home', methods=['GET', 'POST'])
 def home():
@@ -26,6 +28,7 @@ def home():
     return render_template('home.html', form=form)
 
 
+# results route
 @main.route('/results', methods=['GET', 'POST'])
 def results():
     form = SearchForm()
@@ -63,7 +66,7 @@ def results():
             try:
                 for photo in park['photos']:
                     reference = photo['photo_reference']
-                    photo_url = default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + app.config['API_KEY']
+                    photo_url = default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + current_app.config['API_KEY']
                     photo_list.append(photo_url)
             except Exception as e:
                 print('ERROR')

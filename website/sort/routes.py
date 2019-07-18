@@ -6,6 +6,7 @@ from website.models import Result
 sort = Blueprint('sort', __name__)
 
 
+# highest to lowest rating sort route
 @sort.route('/rate_high', methods=['GET', 'POST'])
 def rate_high():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
@@ -15,6 +16,7 @@ def rate_high():
     return render_template('rate_high.html', results=page_results, origin=city)
 
 
+# lowest to highest rating sort route
 @sort.route('/rate_low', methods=['GET', 'POST'])
 def rate_low():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
@@ -26,6 +28,7 @@ def rate_low():
                            origin=city)
 
 
+# fastest to slowest time sort route
 @sort.route('/time_fast', methods=['GET', 'POST'])
 def time_fast():
     city = Result.query.with_entities(Result.city).limit(1).scalar()
@@ -37,6 +40,7 @@ def time_fast():
                            origin=city)
 
 
+# slowest to fastest time sort route
 @sort.route('/time_slow', methods=['GET', 'POST'])
 def time_slow():
     city = Result.query.with_entities(Result.city).limit(1).scalar()

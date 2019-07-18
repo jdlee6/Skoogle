@@ -1,7 +1,7 @@
 ## TO DO
-# Implement blueprints [/]
-# Deploy on server with nginx and letsencrypt
-# Implement custom theme error pages
+# Implement blueprints [x]
+# Implement custom theme error pages [ ]
+# Deploy on server with nginx and letsencrypt [ ]
 
 
 ## OPTIMIZATIONS
