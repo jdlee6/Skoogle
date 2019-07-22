@@ -1,6 +1,7 @@
 from website import db
+from website.main import geolocator, gmaps
 from website.classes.Park import Park
-
+from flask import request
 
 def db_reset():
     db.drop_all()
@@ -21,3 +22,18 @@ def miles_to_meters(miles):
 
 def seconds_to_minutes(seconds):
     return int(seconds / 60)
+
+def get_form_details() -> dict:
+    results = request.form
+    location = results['location']
+    search_radius = miles_to_meters(results['radius']) 
+    return {"location": location, "radius": search_radius}
+
+def get_geo(results) -> dict:
+    geolocation = geolocator.geocode(results['location'])
+    geolat = geolocation.latitude
+    geolong = geolocation.longitude
+    return {"geolocation" : geolocation, "geolat" : geolat, "geolong" : geolong}
+
+def gmaps_query(query: str) -> dict:
+    pass

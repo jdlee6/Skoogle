@@ -2,9 +2,8 @@ from flask import Blueprint, redirect, url_for, render_template, request, abort,
 from flask import current_app
 from website import db
 from website.main.forms import SearchForm
-from website.main.utils import db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes
+from website.main.utils import db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes, get_form_details, get_geo
 from website.models import Result
-from geopy.geocoders import Nominatim
 from website.main import gmaps
 import json, os, requests
 import time, asyncio, aiohttp
@@ -57,13 +56,14 @@ def results():
         # build up photo_list to be added to Park object
         photo_list = []
         for park in skatepark_result:
+            print(park)
             try:
                 for photo in park['photos']:
                     reference = photo['photo_reference']
                     photo_url = current_app.config['GPHOTO_URL'] + 'maxheight=' + current_app.config['PHOTO_HEIGHT'] +'&photoreference=' + reference + '&key=' + current_app.config['API_KEY']
                     photo_list.append(photo_url)
             except Exception as e:
-                print('ERROR')
+                print(f'caught exeption {e}')
 
         async def fetch(url):
             async with aiohttp.ClientSession() as session:
@@ -77,7 +77,7 @@ def results():
         loop.run_until_complete(asyncio.wait(tasks))
         loop.close()
 
-        print(city, names, destinations, ratings, durations, distances, photo_list)
+        # print(city, names, destinations, ratings, durations, distances, photo_list)
         dest_info = build_destination(names, destinations, ratings, distances, durations, photo_list)
         parks = list(make_parks(dest_info))
 
@@ -99,7 +99,7 @@ def results():
             page = request.args.get('page', type=int)
             radius = request.form.get('radius')
             return redirect(url_for('main.results', page=page, radius=radius))
-
+        
     # pagination
     page = request.args.get('page', 1, type=int)
     radius = request.form.get('radius')
@@ -107,3 +107,19 @@ def results():
     print(page_results)
 
     return render_template('results.html', form=form, results=page_results, origin=city, radius=radius)
+
+
+@main.route('/results2', methods=['GET', 'POST'])
+def results2():
+    if request.method == 'POST':
+        print(f'\n*-*-*-* Post Method Received in Results *-*-*-*\n')
+        results = get_form_details()
+        geo = get_geo(results)
+        print(f"\n*-*-*-* location = {results['location']} -- search radius = {results['radius']} -- geolocation = {geo['geolocation']} *-*-*-*)\n")
+        print(f"{geo['geolat']} {geo['geolong']}")
+
+
+
+
+
+    return  'Hi'
