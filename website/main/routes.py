@@ -5,16 +5,9 @@ from website.main.forms import SearchForm
 from website.main.utils import db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes
 from website.models import Result
 from geopy.geocoders import Nominatim
-import googlemaps, json, os, requests
+from website.main import gmaps
+import json, os, requests
 import time, asyncio, aiohttp
-
-
-# default values
-gmaps = googlemaps.Client(key=current_app.config['API_KEY'])
-query = ['skatepark', 'skate park']
-default_url = 'https://maps.googleapis.com/maps/api/place/photo?'
-height = "1000"
-
 
 # create instance of Blueprint; 'main' is the name
 main = Blueprint('main', __name__)
@@ -40,6 +33,7 @@ def results():
         location = geolocator.geocode(city)
         longitude = location.longitude
         latitude = location.latitude
+        query = ['skatepark', 'skate park']
         skatepark_result = gmaps.places(
             query=query[0] or query[1],
             radius=DISTANCE_RADIUS,
@@ -66,7 +60,7 @@ def results():
             try:
                 for photo in park['photos']:
                     reference = photo['photo_reference']
-                    photo_url = default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + current_app.config['API_KEY']
+                    photo_url = current_app.config['GPHOTO_URL'] + 'maxheight=' + current_app.config['PHOTO_HEIGHT'] +'&photoreference=' + reference + '&key=' + current_app.config['API_KEY']
                     photo_list.append(photo_url)
             except Exception as e:
                 print('ERROR')
@@ -110,5 +104,6 @@ def results():
     page = request.args.get('page', 1, type=int)
     radius = request.form.get('radius')
     page_results = Result.query.paginate(page=page, per_page=2)
+    print(page_results)
 
     return render_template('results.html', form=form, results=page_results, origin=city, radius=radius)
