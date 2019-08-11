@@ -114,12 +114,8 @@ def results2():
     if request.method == 'POST':
         print(f'\n*-*-*-* Post Method Received in Results *-*-*-*\n')
         results = get_form_details()
+        radius = results['radius']
         geo = get_geo(results)
-        print(f"\n*-*-*-* location = {results['location']} -- search radius = {results['radius']} -- geolocation = {geo['geolocation']} *-*-*-*)\n")
-        print(f"{geo['geolat']} {geo['geolong']}")
+        print(f"\n*-*-*-* geolocation = {geo['geolocation']} ({geo['geolat']}, {geo['geolong']}) *-*-*-*)\n")
 
-
-
-
-
-    return  'Hi'
+    return  'Coming Soon'
