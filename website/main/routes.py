@@ -4,16 +4,9 @@ from website import db
 from website.main.forms import SearchForm
 from website.main.utils import db_reset, build_destination, make_parks, miles_to_meters, seconds_to_minutes
 from website.models import Result
-from geopy.geocoders import Nominatim
-import googlemaps, json, os, requests
+from website.main import gmaps, geolocator
+import json, os, requests
 import time, asyncio, aiohttp
-
-
-# default values
-gmaps = googlemaps.Client(key=current_app.config['API_KEY'])
-query = ['skatepark', 'skate park']
-default_url = 'https://maps.googleapis.com/maps/api/place/photo?'
-height = "1000"
 
 
 # create instance of Blueprint; 'main' is the name
@@ -33,13 +26,13 @@ def home():
 def results():
     form = SearchForm()
     if form.validate_on_submit():
-        geolocator = Nominatim(user_agent="myapplication")
         DISTANCE_RADIUS = miles_to_meters(form.radius.data)
         global city
         city = form.location.data
         location = geolocator.geocode(city)
         longitude = location.longitude
         latitude = location.latitude
+        query = ['skatepark', 'skate park']
         skatepark_result = gmaps.places(
             query=query[0] or query[1],
             radius=DISTANCE_RADIUS,
@@ -66,7 +59,7 @@ def results():
             try:
                 for photo in park['photos']:
                     reference = photo['photo_reference']
-                    photo_url = default_url + 'maxheight=' + height +'&photoreference=' + reference + '&key=' + current_app.config['API_KEY']
+                    photo_url = current_app.config['GPHOTO_URL'] + 'maxheight=' + current_app.config['HEIGHT'] +'&photoreference=' + reference + '&key=' + current_app.config['API_KEY']
                     photo_list.append(photo_url)
             except Exception as e:
                 print('ERROR')
