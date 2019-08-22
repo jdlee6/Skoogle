@@ -1,7 +1,7 @@
 ## TO DO
-# Implement blueprints [x]
-# Implement custom theme error pages [x]
-# Deploy on server with nginx and letsencrypt [ ]
+# Implement responsive picture captions [x]
+# Implement responsive header []
+# Deploy on server with nginx and letsencrypt []
 
 
 ## OPTIMIZATIONS

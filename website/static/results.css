@@ -26,25 +26,24 @@ body{
     background-color: none;
   }
 
-  .page-item.active .page-link {
+.page-item.active .page-link {
     z-index: 1;
     color: #fff;
     background-color: rgb(133, 190, 255);
-  }
+}
    
-  .page-link:focus, .page-link:hover {
+.page-link:focus, .page-link:hover {
     color: #fff;
     text-decoration: underline;
     background-color: rgb(133, 190, 255);
-  }
+}
 
 .wrapper {
     /** Top padding so that initially, the content is below the header **/
-    padding-top: 100px;
-    
+    padding-top: 20px;
 }
 
-h1 {
+.h1 {
     color: rgb(0, 29, 92);
     font-family: "Source Code Pro";
   }
@@ -52,7 +51,7 @@ h1 {
 .header {
     height: 100px;
     width: 800px; /** Use 100% to fill the width of the page **/
-    position: fixed;
+    position: absolute;
     top: 5%;
     left: 2%;
     right: 0;
@@ -62,30 +61,30 @@ h1 {
 }
 
   /*  LAYOUT */
-  figcaption {
+.figcaption {
     caption-side: bottom;
     color: rgb(4, 24, 56);
     font-family: monospace;
     font-size: 15px;
-  }
-  
-  .container {
+}
+
+.container {
     margin: 0 auto;
     max-width: 1200px;
     padding: 0 1rem;
-  }
+}
 
-  .responsive-image {
+.responsive-image {
     max-width: 100%;
-    /* width: 1000px; */
     height: 390px;
     margin-top: -73px;
+}
 
-  }
-
-  .cell img {
+.cell img {
     display: block;
-  }
+    margin-top: 2px;
+}
+
 
   /* tablet screen */
   @media screen and (min-width: 600px) {

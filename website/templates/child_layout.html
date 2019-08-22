@@ -28,13 +28,13 @@
             <div class="grid">
                 {% for park in results.items %}
                 <div class="cell">
-                    <img src="{{ park['photo_url'] }}" class="responsive-image" width="1000" height="500"/>
+                    <img src="{{ park['photo_url'] }}" class="responsive-image"/>
                 </br>
                         <figcaption align="center">{{ park['name'] }}</figcaption>
                         <figcaption align="center">{{ park['address'] }}</figcaption>
                         <figcaption align="center">Rating: {{ park['rating'] }}</figcaption>
                         <figcaption align="center">Distance: {{ park['distance'] }}</figcaption>
-                        <figcaption align="center">It will take approximately {{ park['duration'] }} minutes to get there</figcaption>
+                        <figcaption align="center">Duration: {{ park['duration'] }} minutes away</figcaption>
                 </div>
                 {% endfor %}
             </div>
