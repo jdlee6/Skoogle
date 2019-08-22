@@ -40,16 +40,16 @@ body{
 
 .wrapper {
     /** Top padding so that initially, the content is below the header **/
-    padding-top: 20px;
+    padding-top: 5px;
 }
 
-.h1 {
+h1 {
     color: rgb(0, 29, 92);
-    font-family: "Source Code Pro";
-  }
+    font-family: 'Alegreya', serif;
+}
 
 .header {
-    height: 100px;
+    height: 40px;
     width: 800px; /** Use 100% to fill the width of the page **/
     position: absolute;
     top: 5%;
@@ -61,11 +61,11 @@ body{
 }
 
   /*  LAYOUT */
-.figcaption {
+figcaption {
     caption-side: bottom;
-    color: rgb(4, 24, 56);
-    font-family: monospace;
-    font-size: 15px;
+    color: rgb(0, 29, 92);
+    font-family: 'Alegreya', serif;
+    font-size: 17px;
 }
 
 .container {

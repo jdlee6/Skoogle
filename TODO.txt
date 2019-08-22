@@ -1,6 +1,6 @@
 ## TO DO
 # Implement responsive picture captions [x]
-# Implement responsive header []
+# Implement responsive header [x]
 # Deploy on server with nginx and letsencrypt []
 
 
