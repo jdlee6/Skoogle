@@ -27,7 +27,6 @@ def results():
     form = SearchForm()
     if form.validate_on_submit():
         DISTANCE_RADIUS = miles_to_meters(form.radius.data)
-        global city
         city = form.location.data
         location = geolocator.geocode(city)
         longitude = location.longitude
@@ -94,14 +93,12 @@ def results():
             db.session.commit()
             
         print(f'speed = {time.time() - a}')    
-        if request.method == 'GET':
-            page = request.args.get('page', type=int)
-            radius = request.form.get('radius')
-            return redirect(url_for('main.results', page=page, radius=radius))
 
     # pagination
     page = request.args.get('page', 1, type=int)
+    origin = Result.query.with_entities(Result.city).limit(1).scalar()
+    print(origin)
     radius = request.form.get('radius')
     page_results = Result.query.paginate(page=page, per_page=2)
 
-    return render_template('results.html', form=form, results=page_results, origin=city, radius=radius)
+    return render_template('results.html', form=form, results=page_results, origin=origin, radius=radius)
