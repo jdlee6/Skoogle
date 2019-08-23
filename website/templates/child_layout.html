@@ -22,7 +22,7 @@
             <div class="grid">
                 {% for park in results.items %}
                 <div class="cell">
-                    <img src="{{ park['photo_url'] }}" class="responsive-image"/>
+                    <img src="{{ park['photo_url'] }}" class="responsive-image" width="1000" height="500"/>
                 </br>
                         <figcaption align="center">{{ park['name'] }}</figcaption>
                         <figcaption align="center">{{ park['address'] }}</figcaption>
