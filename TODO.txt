@@ -1,7 +1,8 @@
 ## TO DO
 # Implement responsive picture captions [x]
 # Implement responsive header [x]
-# Deploy on server with nginx and letsencrypt []
+# Deploy on server with nginx [x]
+# Add domain name and letsencrypt []
 
 
 ## OPTIMIZATIONS
