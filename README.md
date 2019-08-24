@@ -5,7 +5,7 @@
 Skoogle is a Flask web application that is designed to find skate parks within a desired mile radius using Google Places API and Google Distance Matrix API
 
 ## Live
-[Skoogle](http://35.245.69.148/)
+[Skoogle](http://skoogleme.com/)
 
 ## Demo
 <img src="https://imgur.com/NoM0MqT.gif" width="600">
