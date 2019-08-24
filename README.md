@@ -1,4 +1,7 @@
 # Skoogle
+
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+
 Skoogle is a Flask web application that is designed to find skate parks within a desired mile radius using Google Places API and Google Distance Matrix API
 
 ## Live
@@ -14,4 +17,4 @@ Skoogle is a Flask web application that is designed to find skate parks within a
 
 ## Future Implementations
 - [x] Optimize photo retrieval and fix bugs
-- [_] Deploy on a server once bugs are cleared
+- [x] Deploy on a server once bugs are cleared
